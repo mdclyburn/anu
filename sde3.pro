@@ -38,3 +38,9 @@ compute_TSS([], [], 0).
 compute_TSS([T_head | T_tail], [O_head | O_tail], TSS) :-
 	compute_TSS(T_tail, O_tail, Tail_TSS),
 	TSS is ((T_head - O_head) ** 2) + Tail_TSS.
+
+/* (6) tss_tanh(+H, +Weights, -TSS)
+       compute TSS of tanh Unit Error over H, given unit weights.
+       See Equation (4). */
+tss_tanh(H, Weights, TSS) :-
+	compute_TSS(H, Weights, TSS).
