@@ -30,3 +30,11 @@ compute_tanh_outputs([[H_head_head|_]|H_tail], Weights, OutputList) :-
 	unit_tanh(H_head_head, Weights, Output),
 	compute_tanh_outputs(H_tail, Weights, Output_tail),
 	append([Output], Output_tail, OutputList).
+
+/* (5) compute_TSS(+T, +O, -TSS)
+       TSS of a vector T-O
+       2 x E^p in Equation (3). */
+compute_TSS([], [], 0).
+compute_TSS([T_head|T_tail], [O_head|O_tail], TSS) :-
+	compute_TSS(T_tail, O_tail, Tail_TSS),
+	TSS is ((T_head - O_head) ** 2) + Tail_TSS.
