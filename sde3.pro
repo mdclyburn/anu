@@ -55,7 +55,7 @@ validate_tanh([], _, []).
 validate_tanh([[H_head_head | [[H_head_tail_head_head | _] | _]] | H_tail], FW, E) :-
 	unit_tanh(H_head_head, FW, Output),
 	validate_tanh(H_tail, FW, E_tail),
-	Error is (Output - H_head_tail_head_head),
+	Error is (H_head_tail_head_head - Output),
 	append([Error], E_tail, E).
 
 /*     print_list(+List)
