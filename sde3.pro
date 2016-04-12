@@ -16,6 +16,18 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
+/* Test data */
+data_dtoa3_bias([[[0.0, 0.0, 0.0, 1.0], [-1.00]],
+				 [[0.0, 0.0, 1.0, 1.0], [-0.75]],
+				 [[0.0, 1.0, 0.0, 1.0], [-0.50]],
+				 [[0.0, 1.0, 1.0, 1.0], [-0.25]],
+				 [[1.0, 0.0, 0.0, 1.0], [+0.25]],
+				 [[1.0, 0.0, 1.0, 1.0], [+0.50]],
+				 [[1.0, 1.0, 0.0, 1.0], [+0.75]],
+				 [[1.0, 1.0, 1.0, 1.0], [+1.00]]]).
+dtoawts_bias([1.58282202866738309, 0.768100338653628478, 0.3288316861550723,
+   -1.33154390073404882]).
+
 /* (1) calcNet(+Input, +Weights, -Net)
        single unit net activation computation */
 calcNet([], [], X) :- X is 0.
@@ -51,6 +63,8 @@ compute_TSS([T_head | T_tail], [O_head | O_tail], TSS) :-
 	compute_TSS(T_tail, O_tail, Tail_TSS),
 	TSS is ((T_head - O_head) ** 2) + Tail_TSS.
 
+/*    generate_T_list(+H, -T)
+      Extract the T values from H into T. */
 generate_T_list([], []).
 generate_T_list([[_ | [[H_head_tail_head_head | _] | _]] | H_tail], T) :-
 	generate_T_list(H_tail, T_tail),
@@ -58,9 +72,11 @@ generate_T_list([[_ | [[H_head_tail_head_head | _] | _]] | H_tail], T) :-
 
 /* (6) tss_tanh(+H, +Weights, -TSS)
        compute TSS of tanh Unit Error over H, given unit weights.
-       See Equation (4). */
+       See Equation (4). build list for output from squasher and lone value, pass to compute_TSS*/
 tss_tanh(H, Weights, TSS) :-
-	compute_TSS(H, Weights, TSS).
+	compute_tanh_outputs(H, Weights, Output_list),
+	generate_T_list(H, T_list),
+	compute_TSS(T_list, Output_list, TSS).
 
 /* (7) validate_tanh(+H, +FW, -E)
        tanh squasher VALIDATION
