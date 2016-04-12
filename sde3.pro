@@ -50,8 +50,7 @@ tss_tanh(H, Weights, TSS) :-
        Given unit weights in list FW, computes list, E, of output errors
        with elements e = t - o
        corresp. to each element of H.
-       No printing in this version.
-*/
+       No printing in this version. */
 validate_tanh([], _, []).
 validate_tanh([[H_head_head | [[H_head_tail_head_head | _] | _]] | H_tail], FW, E) :-
 	unit_tanh(H_head_head, FW, Output),
