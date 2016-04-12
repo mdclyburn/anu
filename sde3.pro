@@ -57,3 +57,18 @@ validate_tanh([[H_head_head | [[H_head_tail_head_head | _] | _]] | H_tail], FW, 
 	validate_tanh(H_tail, FW, E_tail),
 	Error is (Output - H_head_tail_head_head),
 	append([Error], E_tail, E).
+
+/*     print_list(+List)
+       Print out the contents of a list with each member followed
+       with a newline. */
+print_list([]).
+print_list([List_head | List_tail]) :-
+	write_term(List_head, []),
+	nl,
+	print_list(List_tail).
+
+/* (8) validate_tanh_print(+H, +FW)
+       validate version with printing */
+validate_tanh_print(H, W) :-
+	validate_tanh(H, W, E),
+	print_list(E).
