@@ -44,3 +44,17 @@ compute_TSS([T_head | T_tail], [O_head | O_tail], TSS) :-
        See Equation (4). */
 tss_tanh(H, Weights, TSS) :-
 	compute_TSS(H, Weights, TSS).
+
+/* (7) validate_tanh(+H, +FW, -E)
+       tanh squasher VALIDATION
+       Given unit weights in list FW, computes list, E, of output errors
+       with elements e = t - o
+       corresp. to each element of H.
+       No printing in this version.
+*/
+validate_tanh([], _, []).
+validate_tanh([[H_head_head | [[H_head_tail_head_head | H_head_tail_head_tail] | H_head_tail_tail]] | H_tail], FW, E) :-
+	unit_tanh(H_head_head, FW, Output),
+	validate_tanh(H_tail, FW, E_tail),
+	Error is (Output - H_head_tail_head_head),
+	append([Error], E_tail, E).
