@@ -51,6 +51,11 @@ compute_TSS([T_head | T_tail], [O_head | O_tail], TSS) :-
 	compute_TSS(T_tail, O_tail, Tail_TSS),
 	TSS is ((T_head - O_head) ** 2) + Tail_TSS.
 
+generate_T_list([], []).
+generate_T_list([[_ | [[H_head_tail_head_head | _] | _]] | H_tail], T) :-
+	generate_T_list(H_tail, T_tail),
+	append([H_head_tail_head_head], T_tail, T).
+
 /* (6) tss_tanh(+H, +Weights, -TSS)
        compute TSS of tanh Unit Error over H, given unit weights.
        See Equation (4). */
