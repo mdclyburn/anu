@@ -53,7 +53,7 @@ tss_tanh(H, Weights, TSS) :-
        No printing in this version.
 */
 validate_tanh([], _, []).
-validate_tanh([[H_head_head | [[H_head_tail_head_head | H_head_tail_head_tail] | H_head_tail_tail]] | H_tail], FW, E) :-
+validate_tanh([[H_head_head | [[H_head_tail_head_head | _] | _]] | H_tail], FW, E) :-
 	unit_tanh(H_head_head, FW, Output),
 	validate_tanh(H_tail, FW, E_tail),
 	Error is (Output - H_head_tail_head_head),
